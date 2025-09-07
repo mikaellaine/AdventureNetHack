@@ -594,13 +594,11 @@ make_corpse(struct monst *mtmp, unsigned int corpseflags)
     case PM_YELLOW_DRAGON:
         /* Make dragon scales.  This assumes that the order of the
            dragons is the same as the order of the scales. */
-        if (!rn2(mtmp->mrevived ? 20 : 3)) {
-            num = GRAY_DRAGON_SCALES + monsndx(mdat) - PM_GRAY_DRAGON;
-            obj = mksobj_at(num, x, y, FALSE, FALSE);
-            obj->spe = 0;
-            obj->cursed = obj->blessed = FALSE;
-        }
-        goto default_1;
+      num = GRAY_DRAGON_SCALES + monsndx(mdat) - PM_GRAY_DRAGON;
+      obj = mksobj_at(num, x, y, FALSE, FALSE);
+      obj->spe = 0;
+      obj->cursed = obj->blessed = FALSE;
+      goto default_1;
     case PM_WHITE_UNICORN:
     case PM_GRAY_UNICORN:
     case PM_BLACK_UNICORN:

@@ -5408,6 +5408,15 @@ readobjnam(char *bp, struct obj *no_wish)
               something, makeplural(body_part(HAND)));
         return d.otmp;
     }
+    /* Don't allow wishing for dragon scale mail or dragon scales */
+    if ((d.otmp->otyp >= GRAY_DRAGON_SCALE_MAIL && d.otmp->otyp <= YELLOW_DRAGON_SCALE_MAIL)
+        || (d.otmp->otyp >= GRAY_DRAGON_SCALES && d.otmp->otyp <= YELLOW_DRAGON_SCALES)) {
+        obfree(d.otmp, (struct obj *) 0);
+        d.otmp = no_wish;
+        pline("The dragon evades you, but you get your wish back!");
+        return no_wish;
+    }
+    
 
     if (d.halfeaten && d.otmp->oclass == FOOD_CLASS) {
         unsigned nut = obj_nutrition(d.otmp);
