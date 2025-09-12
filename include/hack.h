@@ -384,6 +384,7 @@ struct dgn_topology { /* special dungeon levels for speed */
     d_level d_knox_level;
     d_level d_mineend_level;
     d_level d_sokoend_level;
+    d_level d_dragon1_level;
 };
 
 /* macros for accessing the dungeon levels by their old names */
@@ -419,6 +420,7 @@ struct dgn_topology { /* special dungeon levels for speed */
 #define knox_level              (svd.dungeon_topology.d_knox_level)
 #define mineend_level           (svd.dungeon_topology.d_mineend_level)
 #define sokoend_level           (svd.dungeon_topology.d_sokoend_level)
+#define dragon1_level           (svd.dungeon_topology.d_dragon1_level)
 /* clang-format on */
 
 #define dunlev_reached(x) (svd.dungeons[(x)->dnum].dunlev_ureached)

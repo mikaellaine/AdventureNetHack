@@ -135,6 +135,7 @@ typedef struct branch {
 #define Is_knox(x)          (Lcheck(x, &knox_level))
 #define Is_mineend_level(x) (Lcheck(x, &mineend_level))
 #define Is_sokoend_level(x) (Lcheck(x, &sokoend_level))
+#define Is_dragon1_level(x) (Lcheck(x, &dragon1_level))
 
 #define In_sokoban(x) ((x)->dnum == sokoban_dnum)
 #define Inhell In_hell(&u.uz) /* now gehennom */

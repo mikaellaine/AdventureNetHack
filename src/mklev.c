@@ -1690,6 +1690,44 @@ pos_to_room(coordxy x, coordxy y)
     return (struct mkroom *) 0;
 }
 
+/* Find a room in the top 10 y coordinate regions for Dragon Cave entrance */
+staticfn boolean
+find_dragon_cave_room(coord *mp)
+{
+    struct mkroom *croom;
+    int i, phase, ai;
+    int *rmarr;
+    int top_y_limit = 10; /* Top 10 y coordinate regions */
+
+    if (!svn.nroom)
+        return FALSE;
+
+    rmarr = (int *) alloc(sizeof(int) * svn.nroom);
+
+    for (phase = 2; phase > -1; phase--) {
+        ai = 0;
+        for (i = 0; i < svn.nroom; i++) {
+            croom = &svr.rooms[i];
+            /* Check if room is in top 10 y regions and meets other criteria */
+            if (croom->ly < top_y_limit && 
+                generate_stairs_room_good(croom, phase)) {
+                rmarr[ai++] = i;
+            }
+        }
+        if (ai > 0) {
+            i = rmarr[rn2(ai)];
+            free(rmarr);
+            croom = &svr.rooms[i];
+            if (somexyspace(croom, mp)) {
+                return TRUE;
+            }
+        }
+    }
+
+    free(rmarr);
+    return FALSE;
+}
+
 /* If given a branch, randomly place a special stair or portal. */
 void
 place_branch(
@@ -1710,8 +1748,15 @@ place_branch(
         return;
 
     if (!x) { /* find random coordinates for branch */
-        /* br_room = find_branch_room(&m); */
-        (void) find_branch_room(&m);  /* sets m via mazexy() or somexy() */
+        /* Special placement for Dragon Cave - place in top 10 y regions */
+        if (br->end2.dnum == dragon1_level.dnum) {
+            if (!find_dragon_cave_room(&m)) {
+                /* Fallback to normal placement if no suitable room found */
+                (void) find_branch_room(&m);
+            }
+        } else {
+            (void) find_branch_room(&m);  /* sets m via mazexy() or somexy() */
+        }
         x = m.x;
         y = m.y;
     } else {

@@ -18,6 +18,11 @@ dungeon = {
             range = 3
          },
          {
+            name = "Dragon Cave",
+            base = 3,
+            range = 4
+         },
+         {
             name = "Sokoban",
             chainlevel = "oracle",
             base = 1,
@@ -279,6 +284,20 @@ dungeon = {
             name = "tower3",
             base = 3
          },
+      }
+   },
+   {
+      name = "Dragon Cave",
+      base = 1,
+      bonetag = "C",
+      alignment = "unaligned",
+      flags = { "mazelike" },
+      entry = -1,
+      levels = {
+         {
+            name = "dragon-1",
+            base = -1
+         }
       }
    },
    {
