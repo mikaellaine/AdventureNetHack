@@ -5414,7 +5414,7 @@ readobjnam(char *bp, struct obj *no_wish)
         obfree(d.otmp, (struct obj *) 0);
         d.otmp = no_wish;
         pline("The dragon evades you, but you get your wish back!");
-        return no_wish;
+        return d.otmp;
     }
     
 
