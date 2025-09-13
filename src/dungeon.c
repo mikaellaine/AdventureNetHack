@@ -531,6 +531,8 @@ add_branch(
     new_branch->end2.dlevel = child_entry_level;
     new_branch->end1_up = pd->tmpbranch[branch_num].up ? TRUE : FALSE;
 
+    debugpline1("Creating branch for %s", svd.dungeons[dgn].dname);
+
     insert_branch(new_branch, FALSE);
     return new_branch;
 }

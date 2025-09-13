@@ -1697,10 +1697,8 @@ find_dragon_cave_room(coord *mp)
     struct mkroom *croom;
     int i, phase, ai;
     int *rmarr;
-    int top_y_limit = 10; /* Top 10 y coordinate regions */
+    int top_y_limit = 5; /* Top 4 y coordinate regions */
 
-    if (!svn.nroom)
-        return FALSE;
 
     rmarr = (int *) alloc(sizeof(int) * svn.nroom);
 
@@ -1725,6 +1723,7 @@ find_dragon_cave_room(coord *mp)
     }
 
     free(rmarr);
+    debugpline1("No suitable room found for Dragon Cave placement: %d", 0);
     return FALSE;
 }
 
@@ -1749,10 +1748,13 @@ place_branch(
 
     if (!x) { /* find random coordinates for branch */
         /* Special placement for Dragon Cave - place in top 10 y regions */
-        if (br->end2.dnum == dragon1_level.dnum) {
+        if (!strcmp(svd.dungeons[br->end2.dnum].dname, "Dragon Cave")) {
             if (!find_dragon_cave_room(&m)) {
                 /* Fallback to normal placement if no suitable room found */
+                debugpline1("No suitable room in top 10 y regions, using normal placement: %d", 0);
                 (void) find_branch_room(&m);
+            } else {
+                debugpline2("Found Dragon Cave room at (%d,%d)", m.x, m.y);
             }
         } else {
             (void) find_branch_room(&m);  /* sets m via mazexy() or somexy() */

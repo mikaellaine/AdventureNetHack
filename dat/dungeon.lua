@@ -19,8 +19,8 @@ dungeon = {
          },
          {
             name = "Dragon Cave",
-            base = 3,
-            range = 4
+            base = 1,
+            range = 0
          },
          {
             name = "Sokoban",
