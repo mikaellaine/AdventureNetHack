@@ -19,7 +19,7 @@ staticfn int is_pure(boolean);
 staticfn void expulsion(boolean);
 staticfn void chat_with_leader(struct monst *);
 staticfn void chat_with_nemesis(void);
-staticfn void chat_with_guardian(void);
+staticfn void chat_with_guardian(struct monst *);
 staticfn void prisoner_speaks(struct monst *);
 
 staticfn void
@@ -438,13 +438,20 @@ nemesis_stinks(coordxy mx, coordxy my)
 }
 
 staticfn void
-chat_with_guardian(void)
+chat_with_guardian(struct monst *mtmp)
 {
     /*  These guys/gals really don't have much to say... */
     if (u.uhave.questart && Qstat(killed_nemesis))
         qt_pager("guardtalk_after");
     else
         qt_pager("guardtalk_before");
+
+    if (Role_if(PM_WIZARD) && mtmp->data == &mons[PM_APPRENTICE]) {
+        if (ACURR(A_INT) < AMAX(A_INT) && !rn2(5))
+            (void) adjattrib(A_INT, 1, -1);
+        if (ACURR(A_WIS) < AMAX(A_WIS) && !rn2(5))
+            (void) adjattrib(A_WIS, 1, -1);
+    }
 }
 
 staticfn void
@@ -484,7 +491,7 @@ quest_chat(struct monst *mtmp)
         chat_with_nemesis();
         break;
     case MS_GUARDIAN:
-        chat_with_guardian();
+        chat_with_guardian(mtmp);
         break;
     default:
         impossible("quest_chat: Unknown quest character %s.", mon_nam(mtmp));
