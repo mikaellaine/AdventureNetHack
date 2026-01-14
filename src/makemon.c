@@ -1350,8 +1350,10 @@ makemon(
                          monst_to_any(mtmp));
     mitem = STRANGE_OBJECT; /* extra inventory item for this monster */
 
-    if (mndx == PM_VLAD_THE_IMPALER)
-        mitem = CANDELABRUM_OF_INVOCATION;
+    if (mndx == PM_VLAD_THE_IMPALER) {
+        if (!u.uevent.invocation_eye)
+            mitem = CANDELABRUM_OF_INVOCATION;
+    }
     mtmp->cham = NON_PM; /* default is "not a shapechanger" */
     if (!Protection_from_shape_changers
         && (mcham = pm_to_cham(mndx)) != NON_PM) {
@@ -2205,6 +2207,8 @@ mongets(struct monst *mtmp, int otyp)
             otmp->spe = 0;
             otmp->age = 0L;
             otmp->lamplit = FALSE;
+            otmp->blessed = otmp->cursed = FALSE;
+        } else if (otmp->otyp == DRAGON_EYE) {
             otmp->blessed = otmp->cursed = FALSE;
         } else if (otmp->otyp == BELL_OF_OPENING) {
             otmp->blessed = otmp->cursed = FALSE;

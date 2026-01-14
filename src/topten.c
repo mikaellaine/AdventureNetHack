@@ -521,7 +521,9 @@ encode_extended_achievements(char *buf)
             achievement = "obtained_the_bell_of_opening";
             break;
         case ACH_CNDL:
-            achievement = "obtained_the_candelabrum_of_invocation";
+            achievement = u.uevent.invocation_eye
+                          ? "obtained_the_dragon_eye"
+                          : "obtained_the_candelabrum_of_invocation";
             break;
         case ACH_HELL:
             achievement = "entered_gehennom";

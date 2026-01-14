@@ -2343,9 +2343,12 @@ show_achievements(
             break;
         case ACH_CNDL:
             enl_msg(You_,
-                    u.uhave.menorah ? "have" : "have handled",
-                    u.uhave.menorah ? "had" : "handled",
-                    " the Candelabrum of Invocation", "");
+                    (u.uhave.menorah || u.uhave.dragon_eye) ? "have"
+                                                           : "have handled",
+                    (u.uhave.menorah || u.uhave.dragon_eye) ? "had" : "handled",
+                    u.uevent.invocation_eye ? " the Dragon Eye"
+                                            : " the Candelabrum of Invocation",
+                    "");
             break;
         case ACH_BOOK:
             enl_msg(You_,

@@ -181,6 +181,9 @@ resetobjs(struct obj *ochain, boolean restore)
                 otmp->spe = 0;
                 otmp->owt = weight(otmp);
                 curse(otmp);
+            } else if (otmp->otyp == DRAGON_EYE) {
+                otmp->otyp = RUBY;
+                curse(otmp);
             } else if (otmp->otyp == BELL_OF_OPENING) {
                 otmp->otyp = BELL;
                 curse(otmp);

@@ -123,6 +123,7 @@ mon_has_special(struct monst *mtmp)
             || any_quest_artifact(otmp)
             || otmp->otyp == BELL_OF_OPENING
             || otmp->otyp == CANDELABRUM_OF_INVOCATION
+            || otmp->otyp == DRAGON_EYE
             || otmp->otyp == SPE_BOOK_OF_THE_DEAD)
             return 1;
     return 0;
@@ -147,7 +148,8 @@ which_arti(int mask)
     case M3_WANTSBELL:
         return BELL_OF_OPENING;
     case M3_WANTSCAND:
-        return CANDELABRUM_OF_INVOCATION;
+        return u.uevent.invocation_eye ? DRAGON_EYE
+                                       : CANDELABRUM_OF_INVOCATION;
     case M3_WANTSBOOK:
         return SPE_BOOK_OF_THE_DEAD;
     default:
@@ -221,7 +223,8 @@ you_have(int mask)
     case M3_WANTSBELL:
         return (boolean) u.uhave.bell;
     case M3_WANTSCAND:
-        return (boolean) u.uhave.menorah;
+        return (boolean) (u.uevent.invocation_eye ? u.uhave.dragon_eye
+                                                  : u.uhave.menorah);
     case M3_WANTSBOOK:
         return (boolean) u.uhave.book;
     case M3_WANTSARTI:

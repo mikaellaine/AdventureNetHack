@@ -3066,7 +3066,8 @@ invocation_message(void)
     /* a special clue-msg when on the Invocation position */
     if (invocation_pos(u.ux, u.uy) && !On_stairs(u.ux, u.uy)) {
         char buf[BUFSZ];
-        struct obj *otmp = carrying(CANDELABRUM_OF_INVOCATION);
+        struct obj *otmp;
+        boolean use_eye = u.uevent.invocation_eye;
 
         nomul(0); /* stop running or travelling */
         if (u.usteed)
@@ -3078,9 +3079,18 @@ invocation_message(void)
 
         You_feel("a strange vibration %s.", buf);
         u.uevent.uvibrated = 1;
-        if (otmp && otmp->spe == 7 && otmp->lamplit)
-            pline("%s %s!", The(xname(otmp)),
-                  Blind ? "throbs palpably" : "glows with a strange light");
+        if (!use_eye) {
+            otmp = carrying(CANDELABRUM_OF_INVOCATION);
+            if (otmp && otmp->spe == 7 && otmp->lamplit)
+                pline("%s %s!", The(xname(otmp)),
+                      Blind ? "throbs palpably"
+                            : "glows with a strange light");
+        } else {
+            otmp = carrying(DRAGON_EYE);
+            if (otmp && !otmp->cursed)
+                pline("%s %s!", The(xname(otmp)),
+                      Blind ? "throbs palpably" : "gleams with inner fire");
+        }
     }
 }
 

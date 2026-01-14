@@ -973,6 +973,7 @@ u_init_misc(void)
     u.uevent.uheard_tune = 0;
     u.uevent.uopened_dbridge = 0;
     u.uevent.udemigod = 0;              /* not a demi-god yet... */
+    u.uevent.invocation_eye = rn2(2);
     u.uevent.amulet_wish = 0;
     u.udg_cnt = 0;
     u.mh = u.mhmax = u.mtimedone = 0;

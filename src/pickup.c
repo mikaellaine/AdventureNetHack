@@ -2587,6 +2587,7 @@ in_container(struct obj *obj)
         return 0;
     } else if (obj->otyp == AMULET_OF_YENDOR
                || obj->otyp == CANDELABRUM_OF_INVOCATION
+               || obj->otyp == DRAGON_EYE
                || obj->otyp == BELL_OF_OPENING
                || obj->otyp == SPE_BOOK_OF_THE_DEAD) {
         /* Prohibit Amulets in containers; if you allow it, monsters can't

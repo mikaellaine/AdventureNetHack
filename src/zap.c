@@ -1322,7 +1322,8 @@ cancel_item(struct obj *obj)
         if (obj->spe != cancelled_spe
             && otyp != WAN_CANCELLATION /* can't cancel cancellation */
             && otyp != MAGIC_LAMP /* cancelling doesn't remove djinni */
-            && otyp != CANDELABRUM_OF_INVOCATION) {
+            && otyp != CANDELABRUM_OF_INVOCATION
+            && otyp != DRAGON_EYE) {
             costly_alteration(obj, COST_CANCEL);
             obj->spe = cancelled_spe;
         }
@@ -1476,6 +1477,7 @@ obj_resists(struct obj *obj,
     if (obj->otyp == AMULET_OF_YENDOR
         || obj->otyp == SPE_BOOK_OF_THE_DEAD
         || obj->otyp == CANDELABRUM_OF_INVOCATION
+        || obj->otyp == DRAGON_EYE
         || obj->otyp == BELL_OF_OPENING
         || (obj->otyp == CORPSE && is_rider(&mons[obj->corpsenm]))) {
         return TRUE;

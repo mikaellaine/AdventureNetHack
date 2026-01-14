@@ -715,6 +715,8 @@ stealamulet(struct monst *mtmp)
             fake = BELL;
         } else if (u.uhave.book) {
             real = SPE_BOOK_OF_THE_DEAD;
+        } else if (u.uhave.dragon_eye) {
+            real = DRAGON_EYE;
         } else if (u.uhave.menorah) {
             real = CANDELABRUM_OF_INVOCATION;
         } else

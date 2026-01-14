@@ -133,6 +133,10 @@ des.object("(")
 des.object("(")
 des.object("(")
 
+if u.invocation_eye then
+   des.object("Dragon Eye")
+end
+
 -- (Not so) Random traps.
 des.trap("spiked pit", 05,02)
 des.trap("spiked pit", 14,05)

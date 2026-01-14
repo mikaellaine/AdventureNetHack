@@ -5036,6 +5036,9 @@ readobjnam(char *bp, struct obj *no_wish)
         case CANDELABRUM_OF_INVOCATION:
             d.typ = rnd_class(TALLOW_CANDLE, WAX_CANDLE);
             break;
+        case DRAGON_EYE:
+            d.typ = CRYSTAL_BALL;
+            break;
         case BELL_OF_OPENING:
             d.typ = BELL;
             break;

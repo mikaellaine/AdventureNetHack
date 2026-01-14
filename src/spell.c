@@ -240,6 +240,7 @@ deadbook(struct obj *book2)
     book2->known = 1;
     if (invocation_pos(u.ux, u.uy) && !On_stairs(u.ux, u.uy)) {
         struct obj *otmp;
+        boolean use_eye = u.uevent.invocation_eye;
         boolean arti1_primed = FALSE, arti2_primed = FALSE,
                          arti_cursed = FALSE;
 
@@ -250,20 +251,32 @@ deadbook(struct obj *book2)
             return;
         }
 
-        if (!u.uhave.bell || !u.uhave.menorah) {
+        if (!u.uhave.bell
+            || (use_eye ? !u.uhave.dragon_eye : !u.uhave.menorah)) {
             pline("A chill runs down your %s.", body_part(SPINE));
             if (!u.uhave.bell) {
                 Soundeffect(se_faint_chime, 30);
                 You_hear("a faint chime...");
             }
-            if (!u.uhave.menorah)
+            if (use_eye) {
+                if (!u.uhave.dragon_eye)
+                    pline("A dragon's gaze is missing.");
+            } else if (!u.uhave.menorah) {
                 pline("Vlad's doppelganger is amused.");
+            }
             return;
         }
 
         for (otmp = gi.invent; otmp; otmp = otmp->nobj) {
-            if (otmp->otyp == CANDELABRUM_OF_INVOCATION && otmp->spe == 7
-                && otmp->lamplit) {
+            if (!use_eye) {
+                if (otmp->otyp == CANDELABRUM_OF_INVOCATION && otmp->spe == 7
+                    && otmp->lamplit) {
+                    if (!otmp->cursed)
+                        arti1_primed = TRUE;
+                    else
+                        arti_cursed = TRUE;
+                }
+            } else if (otmp->otyp == DRAGON_EYE) {
                 if (!otmp->cursed)
                     arti1_primed = TRUE;
                 else

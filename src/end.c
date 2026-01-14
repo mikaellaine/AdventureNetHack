@@ -919,7 +919,8 @@ artifact_score(
     for (otmp = list; otmp; otmp = otmp->nobj) {
         if (otmp->oartifact || otmp->otyp == BELL_OF_OPENING
             || otmp->otyp == SPE_BOOK_OF_THE_DEAD
-            || otmp->otyp == CANDELABRUM_OF_INVOCATION) {
+            || otmp->otyp == CANDELABRUM_OF_INVOCATION
+            || otmp->otyp == DRAGON_EYE) {
             value = arti_cost(otmp); /* zorkmid value */
             points = value * 5 / 2;  /* score value */
             if (counting) {

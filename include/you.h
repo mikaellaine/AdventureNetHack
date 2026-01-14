@@ -32,8 +32,9 @@ struct u_have {
     Bitfield(bell, 1);     /* carrying Bell     */
     Bitfield(book, 1);     /* carrying Book     */
     Bitfield(menorah, 1);  /* carrying Candelabrum */
+    Bitfield(dragon_eye, 1); /* carrying Dragon Eye */
     Bitfield(questart, 1); /* carrying the Quest Artifact */
-    Bitfield(unused, 3);
+    Bitfield(unused, 2);
 };
 
 struct u_event {
@@ -52,9 +53,10 @@ struct u_event {
     Bitfield(udemigod, 1);          /* killed the wiz */
     Bitfield(uvibrated, 1);         /* stepped on "vibrating square" */
     Bitfield(ascended, 1);          /* has offered the Amulet */
+    Bitfield(invocation_eye, 1);    /* Dragon Eye replaces candelabrum */
 
     Bitfield(amulet_wish, 1);       /* has gained a wish from the Amulet */
-    /* 7 free bits */
+    /* 6 free bits */
 };
 
 /*

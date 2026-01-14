@@ -971,6 +971,11 @@ addinv_core1(struct obj *obj)
             impossible("already have candelabrum?");
         u.uhave.menorah = 1;
         record_achievement(ACH_CNDL);
+    } else if (obj->otyp == DRAGON_EYE) {
+        if (u.uhave.dragon_eye)
+            impossible("already have dragon eye?");
+        u.uhave.dragon_eye = 1;
+        record_achievement(ACH_CNDL);
     } else if (obj->otyp == BELL_OF_OPENING) {
         if (u.uhave.bell)
             impossible("already have silver bell?");
@@ -1366,6 +1371,10 @@ freeinv_core(struct obj *obj)
         if (!u.uhave.menorah)
             impossible("don't have candelabrum?");
         u.uhave.menorah = 0;
+    } else if (obj->otyp == DRAGON_EYE) {
+        if (!u.uhave.dragon_eye)
+            impossible("don't have dragon eye?");
+        u.uhave.dragon_eye = 0;
     } else if (obj->otyp == BELL_OF_OPENING) {
         if (!u.uhave.bell)
             impossible("don't have silver bell?");

@@ -546,6 +546,7 @@ static const short uniq_objs[] = {
     BELL_OF_OPENING,
     SPE_BOOK_OF_THE_DEAD,
     CANDELABRUM_OF_INVOCATION,
+    DRAGON_EYE,
 };
 
 /* discoveries qsort comparison function */
