@@ -963,7 +963,7 @@ kick_door(coordxy x, coordxy y, int avrg_attrib)
         /* note: this used to be unconditional "WHAMMM!!!" but that has a
            fairly strong connotation of noise that a deaf hero shouldn't
            hear; we've kept the extra 'm's and one of the extra '!'s */
-        pline("%s!!", (Deaf || !rn2(3)) ? "Thwack" : "Whammm");
+        pline("%s!!", (Deaf || !rn2(3)) ? "Whamm" : "Whammm");
         if (in_town(x, y))
             (void) get_iter_mons_xy(watchman_door_damage, x, y);
     }

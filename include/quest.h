@@ -26,6 +26,7 @@ struct q_score {              /* Quest "scorecard" */
     Bitfield(touched_artifact, 1); /* for a special message */
     Bitfield(offered_artifact, 1); /* offered to leader */
     Bitfield(got_thanks, 1);       /* final message from leader */
+    Bitfield(arc_student_offerings, 3); /* Arc quest: students offered */
 
     /* used by questpgr code when messages want to use pronouns
        (set up at game start instead of waiting until monster creation;

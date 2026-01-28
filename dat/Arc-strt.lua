@@ -52,8 +52,10 @@ des.region(selection.area(50,12,56,14), "lit")
 des.region(selection.area(22,14,23,14), "unlit")
 des.region(selection.area(25,14,30,14), "unlit")
 des.region(selection.area(32,14,48,14), "unlit")
--- Stairs
-des.stair("down", 55,07)
+-- Altar and quest entrance (outside the school)
+des.altar({ x=30, y=10, align="law", type="altar" })
+-- Stairs (quest entrance)
+des.stair("down", 28,10)
 -- Portal arrival point
 des.levregion({ region = {63,06,63,06}, type="branch" })
 -- Doors

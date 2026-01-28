@@ -34,6 +34,7 @@ staticfn void offer_corpse(struct obj *, boolean, aligntyp);
 staticfn boolean pray_revive(void);
 staticfn boolean water_prayer(boolean);
 staticfn boolean blocked_boulder(int, int);
+staticfn boolean arc_student_offering_spot(void);
 
 /* simplify a few tests */
 #define Cursed_obj(obj, typ) ((obj) && (obj)->otyp == (typ) && (obj)->cursed)
@@ -106,10 +107,22 @@ static const char *const godvoices[] = {
 #define on_shrine() ((levl[u.ux][u.uy].altarmask & AM_SHRINE) != 0)
 #define a_align(x, y) ((aligntyp) Amask2align(levl[x][y].altarmask & AM_MASK))
 
+/* Arc-strt.lua: keep these in sync with the quest altar placement */
+#define ARC_ALTAR_X 60
+#define ARC_ALTAR_Y 7
+
 /* used by turn undead iteration function; always reinitialized
    before iterating that, so don't need to be globals */
 static int turn_undead_range;
 static int turn_undead_msg_cnt;
+
+staticfn boolean
+arc_student_offering_spot(void)
+{
+    return Role_if(PM_ARCHEOLOGIST)
+           && on_level(&u.uz, &qstart_level)
+           && u.ux == ARC_ALTAR_X && u.uy == ARC_ALTAR_Y;
+}
 
 /* critically low hit points if hp <= 5 or hp <= maxhp/N for some N */
 boolean
@@ -1987,6 +2000,19 @@ offer_corpse(struct obj *otmp, boolean highaltar, aligntyp altaralign)
         return;
 
     ptr = &mons[otmp->corpsenm];
+
+    if (otmp->corpsenm == PM_STUDENT && arc_student_offering_spot()) {
+        if (svq.quest_status.arc_student_offerings < 5)
+            svq.quest_status.arc_student_offerings++;
+        consume_offering(otmp);
+        if (svq.quest_status.arc_student_offerings >= 5) {
+            pline("You sense the way to the quest entrance is now open.");
+        } else {
+            pline("More students are required: %d remaining.",
+                  5 - svq.quest_status.arc_student_offerings);
+        }
+        return;
+    }
 
     /* same race or former pet results apply even if the corpse is
        too old (value==0) */
