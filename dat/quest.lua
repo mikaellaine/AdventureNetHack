@@ -197,20 +197,12 @@ You couldn't quite make out that last message.]],
       assignquest = {
          synopsis = "[%nC has stolen %o.  Locate %i, defeat %ni, and return %O.]",
          output = "text",
-         text = [["Grave times have befallen the college, for %na has
-stolen %o.  Without it, the board of directors of
-the university will soon have no choice but to revoke our research grants.
-
-"You must locate the entrance to %i.  Within it,
-you will find %n.
-
-"You must then defeat %n and return %o
-to me.
-
-"Only in this way will we be able to prevent the budget cuts that could
-close this college.
-
-"May the wisdom of %d be your guide."]],
+         text = [["Aided by ancient Aztec powers, %na has stolen %o.
+         "I must have it to further my pow.. err, research. However...
+         "Unfortunately, a price has to be paid for entrance to %i. 
+         "No less than 5 students are required to gain entry.
+         "You must then defeat %n and return %o to me.
+         "Oh, and don't worry. %d will understand. Do what you must."]],
       },
       badalign = {
          synopsis = "[\"%pC, you have strayed from the %a path.  Purify yourself!\"]",
@@ -224,21 +216,19 @@ back only when you have purified yourself."]],
       badlevel = {
          synopsis = "[%pC, a mere %r is too inexperienced.]",
          output = "text",
-         text = [["%p, you are yet too inexperienced to undertake such a demanding
-quest.  A mere %r could not possibly face the rigors demanded and
-survive.  Go forth, and come here again when your adventures have further
-taught you."]],
+         text = [["%p, you are yet too inexperienced to understand what is going on here. I'm not going to try to explain to a mere %r what needs to be done here. 
+Come back when you are deeper in the knowledge of the Aztec gods."]],
       },
       discourage = {
-         "\"Try your best, %p.  You cannot defeat me.\"",
-         "\"I shall rend the flesh from your body whilst you still breathe!\"",
-         "\"First you, %p, then I shall destroy your mentor, %l.\"",
+         "\"You enjoyed spilling their blood, %p. Now give me yours.\"",
+         "\"Bow down to me and I will command more delightful sacrifice!\"",
+         "\"We have a deal with your mentor. Your life was promised to me, %p.\"",
          "\"Tiring yet, %p?  I draw my power from my master and cannot falter!\"",
          "\"I shall rend thy soul from thy body and consume it!\"",
          "\"You are far too %a -- it weakens you.  You shall die in this place.\"",
          "\"%d has forsaken you!  You are lost now!\"",
          "\"A mere %r cannot hope to defeat me!\"",
-         "\"If you are the best %l can send, I have nothing to fear.\"",
+         "\"Finally %l did something right: I will now feast on your blood.\"",
          "\"Die %c!  I shall exhibit your carcass as a trophy.\"",
       },
       encourage = {
