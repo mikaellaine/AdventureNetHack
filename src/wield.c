@@ -493,10 +493,10 @@ doswapweapon(void)
         setuswapwep(oldswap);
     } else {
         setuswapwep(oldwep);
-        if (uswapwep)
-            prinv((char *) 0, uswapwep, 0L);
-        else
-            You("have no secondary weapon readied.");
+        //if (uswapwep)
+        //    prinv((char *) 0, uswapwep, 0L);
+        //else
+        //    You("have no secondary weapon readied.");
     }
 
     if (u.twoweap && !can_twoweapon())

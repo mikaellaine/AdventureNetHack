@@ -71,6 +71,12 @@ des.door("closed",38,13)
 des.door("locked",24,14)
 des.door("closed",31,14)
 des.door("locked",49,14)
+-- Graffiti just inside the main entrance
+des.engraving({ coord = { 56, 10 }, type = "burn", text = "The gods gathered at Teotihuacan; one god cast himself into the fire, and thus the Sun was born." })
+des.engraving({ coord = { 54, 10 }, type = "burn", text = "To feed the gods and keep the universe in motion" })
+des.engraving({ coord = { 53, 10 }, type = "burn", text = "Sacrifice their hearts and blood to the idol" })
+des.engraving({ coord = { 52, 10 }, type = "burn", text = "The captive is laid on the sacrificial stone, his chest opened, and his heart offered to the sun." })
+
 -- Lord Carnarvon
 des.monster({ id = "Lord Carnarvon", coord = {25, 10}, inventory = function()
    des.object({ id = "fedora", spe = 5 });

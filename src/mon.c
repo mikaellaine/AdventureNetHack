@@ -3238,6 +3238,9 @@ corpse_chance(
         }
     }
 
+    if (monsndx(mdat) == PM_STUDENT)
+        return TRUE;
+
     /* must duplicate this below check in xkilled() since it results in
      * creating no objects as well as no corpse
      */
@@ -3260,7 +3263,8 @@ mondied(struct monst *mdef)
         return; /* lifesaved */
 
     /* this assumes that the dead monster's map coordinates remain accurate */
-    if (corpse_chance(mdef, (struct monst *) 0, FALSE)
+    if ((monsndx(mdef->data) == PM_STUDENT
+         || corpse_chance(mdef, (struct monst *) 0, FALSE))
         && (accessible(mdef->mx, mdef->my) || is_pool(mdef->mx, mdef->my)))
         (void) make_corpse(mdef, CORPSTAT_NONE);
 }
@@ -3400,7 +3404,7 @@ monkilled(
        leather golem, iron chains for iron golem, not a regular corpse) */
     gd.disintegested = (how == AD_DGST || how == -AD_RBRE
                        || (how == AD_FIRE && completelyburns(mptr)));
-    if (gd.disintegested)
+    if (gd.disintegested && monsndx(mptr) != PM_STUDENT)
         mondead(mdef); /* never leaves a corpse */
     else
         mondied(mdef); /* calls mondead() and maybe leaves a corpse */
@@ -3576,7 +3580,10 @@ xkilled(
         goto cleanup;
     }
 
-    if (nocorpse || LEVEL_SPECIFIC_NOCORPSE(mdat))
+    if (mndx == PM_STUDENT)
+        nocorpse = FALSE;
+
+    if (nocorpse || (mndx != PM_STUDENT && LEVEL_SPECIFIC_NOCORPSE(mdat)))
         goto cleanup;
 
 #ifdef MAIL_STRUCTURES
@@ -3650,6 +3657,10 @@ xkilled(
     /*
      * Punish bad behavior.
      */
+    boolean arc_student_excuse =
+        (mndx == PM_STUDENT && Role_if(PM_ARCHEOLOGIST)
+         && on_level(&u.uz, &qstart_level));
+
     if (is_human(mdat)
         && (!always_hostile(mdat) && mtmp->malign <= 0)
         /* exclude role monsters */
@@ -3659,14 +3670,16 @@ xkilled(
            a corpse or animating a statue and usually will be hostile */
         && mndx != PM_HUMAN
         /* only applicable if hero is lawful or neutral */
-        && u.ualign.type != A_CHAOTIC) {
+        && u.ualign.type != A_CHAOTIC
+        && !arc_student_excuse) {
         HTelepat &= ~INTRINSIC;
         change_luck(-2);
         You("murderer!");
         if (Blind && !Blind_telepat)
             see_monsters(); /* Can't sense monsters any more. */
     }
-    if ((mtmp->mpeaceful && !rn2(2)) || mtmp->mtame)
+    if (!arc_student_excuse
+        && ((mtmp->mpeaceful && !rn2(2)) || mtmp->mtame))
         change_luck(-1);
     if (is_unicorn(mdat) && sgn(u.ualign.type) == sgn(mdat->maligntyp)) {
         change_luck(-5);
@@ -3691,13 +3704,15 @@ xkilled(
         if (!svq.quest_status.killed_leader)
             adjalign((int) (ALIGNLIM / 4));
     } else if (mdat->msound == MS_GUARDIAN) { /* Bad */
-        adjalign(-(int) (ALIGNLIM / 8));
-        u.ugangr++;
-        change_luck(-4);
-        if (!Hallucination)
-            pline("That was probably a bad idea...");
-        else
-            pline("Whoopsie-daisy!");
+        if (!arc_student_excuse) {
+            adjalign(-(int) (ALIGNLIM / 8));
+            u.ugangr++;
+            change_luck(-4);
+            if (!Hallucination)
+                pline("That was probably a bad idea...");
+            else
+                pline("Whoopsie-daisy!");
+        }
     } else if (mtmp->ispriest) {
         adjalign((p_coaligned(mtmp)) ? -2 : 2);
         /* cancel divine protection for killing your priest */
@@ -3723,7 +3738,7 @@ xkilled(
                            mname ? ", " : "",
                            uhis(), pmname(mdat, Mgender(mtmp)));
         }
-    } else if (mtmp->mpeaceful)
+    } else if (mtmp->mpeaceful && !arc_student_excuse)
         adjalign(-5);
 
     /* malign was already adjusted for u.ualign.type and randomization */
@@ -4209,7 +4224,9 @@ peacefuls_respond(struct monst *mtmp)
                        own quest guardians */
                     if (mon->isshk || mon->ispriest
                         || (mon->data == &mons[quest_info(MS_LEADER)]
-                            && mtmp->data != &mons[gu.urole.guardnum])) {
+                            && (mtmp->data != &mons[gu.urole.guardnum]
+                                || (Role_if(PM_ARCHEOLOGIST)
+                                    && gu.urole.guardnum == PM_STUDENT)))) {
                         if (exclaimed)
                             pline_mon(mon, "%s%s", buf, " then shrugs.");
                         continue;
@@ -4311,6 +4328,19 @@ setmangry(struct monst *mtmp, boolean via_attack)
             pline_mon(mtmp, "%s gets angry!", Monnam(mtmp));
     } else {
         growl(mtmp);
+    }
+
+    if (Role_if(PM_ARCHEOLOGIST) && mtmp->data == &mons[PM_STUDENT]) {
+        struct monst *mon;
+
+        for (mon = fmon; mon; mon = mon->nmon) {
+            if (DEADMONSTER(mon))
+                continue;
+            if (mon->data == &mons[PM_STUDENT] && mon->mpeaceful) {
+                mon->mpeaceful = 0;
+                mon->mstrategy &= ~STRAT_WAITMASK;
+            }
+        }
     }
 
     /* attacking your own quest leader will anger his or her guardians */

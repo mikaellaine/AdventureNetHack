@@ -216,7 +216,9 @@ back only when you have purified yourself."]],
       badlevel = {
          synopsis = "[%pC, a mere %r is too inexperienced.]",
          output = "text",
-         text = [["%p, you are yet too inexperienced to understand what is going on here. I'm not going to try to explain to a mere %r what needs to be done here. 
+         text = [["%p, Hmm.. I need someone deeply devoted to the ways of the ancient gods.
+         A mere %r would let their conventional thinking impede them. 
+         The mission
 Come back when you are deeper in the knowledge of the Aztec gods."]],
       },
       discourage = {

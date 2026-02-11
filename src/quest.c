@@ -139,15 +139,11 @@ artitouch(struct obj *obj)
 boolean
 ok_to_quest(void)
 {
-    boolean ready = (boolean) (((Qstat(got_quest) || Qstat(got_thanks))
-                                && is_pure(FALSE) > 0)
-                               || Qstat(killed_leader));
+    if (Role_if(PM_ARCHEOLOGIST) && Qstat(arc_student_offerings) >= 5)
+        return TRUE;
 
-    if (ready && Role_if(PM_ARCHEOLOGIST)
-        && Qstat(arc_student_offerings) < 5)
-        return FALSE;
-
-    return ready;
+    return (boolean) (((Qstat(got_quest) || Qstat(got_thanks))
+                       && is_pure(FALSE) > 0) || Qstat(killed_leader));
 }
 
 staticfn boolean

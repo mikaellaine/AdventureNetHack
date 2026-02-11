@@ -107,9 +107,6 @@ static const char *const godvoices[] = {
 #define on_shrine() ((levl[u.ux][u.uy].altarmask & AM_SHRINE) != 0)
 #define a_align(x, y) ((aligntyp) Amask2align(levl[x][y].altarmask & AM_MASK))
 
-/* Arc-strt.lua: keep these in sync with the quest altar placement */
-#define ARC_ALTAR_X 60
-#define ARC_ALTAR_Y 7
 
 /* used by turn undead iteration function; always reinitialized
    before iterating that, so don't need to be globals */
@@ -121,7 +118,7 @@ arc_student_offering_spot(void)
 {
     return Role_if(PM_ARCHEOLOGIST)
            && on_level(&u.uz, &qstart_level)
-           && u.ux == ARC_ALTAR_X && u.uy == ARC_ALTAR_Y;
+           && on_altar();
 }
 
 /* critically low hit points if hp <= 5 or hp <= maxhp/N for some N */
@@ -2005,6 +2002,7 @@ offer_corpse(struct obj *otmp, boolean highaltar, aligntyp altaralign)
         if (svq.quest_status.arc_student_offerings < 5)
             svq.quest_status.arc_student_offerings++;
         consume_offering(otmp);
+        pline("%s approves.", a_gname());
         if (svq.quest_status.arc_student_offerings >= 5) {
             pline("You sense the way to the quest entrance is now open.");
         } else {
