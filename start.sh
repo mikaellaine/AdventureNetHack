@@ -1,13 +1,7 @@
 #!/bin/bash
-#export HACKDIR=/usr/games/lib/nethackdir
-export HACKDIR=/home/mikael/AdventureNetHack/dat
-mkdir ${HACKDIR}/save
-touch ${HACKDIR}/perm
-touch ${HACKDIR}/record
-touch ${HACKDIR}/logfile
-touch ${HACKDIR}/xlogfile
+export HACKDIR=/home/mikael/repo/AdventureNetHack/playground
 if [[ $1 == "d" ]]; then
-    gdb --args ./src/nethack -D
+    gdb --args ${HACKDIR}/nethack -D
 else
-    ./src/nethack -D
+    ${HACKDIR}/nethack -D
 fi
