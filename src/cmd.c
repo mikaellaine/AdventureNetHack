@@ -56,6 +56,7 @@ extern int doforce(void);            /**/
 extern int doopen(void);             /**/
 extern int doclose(void);            /**/
 extern int dosh(void);               /**/
+extern int dowiki(void);             /**/
 extern int dodiscovered(void);       /**/
 extern int doclassdisco(void);       /**/
 extern int doset_simple(void);       /**/
@@ -100,6 +101,7 @@ staticfn void cmdbind_remove(uchar);
 staticfn void cmdbind_swapkeys(uchar, uchar);
 staticfn int dosuspend_core(void);
 staticfn int dosh_core(void);
+staticfn int dowiki_core(void);
 staticfn int doherecmdmenu(void);
 staticfn int dotherecmdmenu(void);
 staticfn int doprev_message(void);
@@ -1937,6 +1939,12 @@ struct ext_func_tab extcmdlist[] = {
               dowhatis, IFBURIED | GENERALCMD, NULL },
     { 'w',    "wield", "wield (put in use) a weapon",
               dowield, 0, NULL },
+    { '\0',   "wiki", "browse the local NetHackWiki mirror",
+              dowiki_core, (IFBURIED | GENERALCMD | NOFUZZERCMD
+#ifndef WIKIVIEWER
+                          | CMD_NOT_AVAILABLE
+#endif
+                          ), NULL },
     { M('w'), "wipe", "wipe off your face",
               dowipe, AUTOCOMPLETE, NULL },
     { '\0',   "wizborn", "show stats of monsters created",
@@ -5720,6 +5728,23 @@ dosh_core(void)
     urealtime.start_timing = getnow();
 #else
     Norep(cmdnotavail, "#shell");
+#endif
+    return ECMD_OK;
+}
+
+/* #wiki: browse the local NetHackWiki mirror */
+staticfn int
+dowiki_core(void)
+{
+#ifdef WIKIVIEWER
+    time_t now = getnow();
+
+    urealtime.realtime += timet_delta(now, urealtime.start_timing);
+    urealtime.start_timing = now; /* (see dosuspend_core) */
+    dowiki();
+    urealtime.start_timing = getnow();
+#else
+    Norep(cmdnotavail, "#wiki");
 #endif
     return ECMD_OK;
 }

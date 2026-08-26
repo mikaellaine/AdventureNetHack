@@ -3546,7 +3546,11 @@ extern void msleep(unsigned);
 #ifdef SHELL
 extern int dosh(void);
 #endif /* SHELL */
-#if defined(SHELL) || defined(DEF_PAGER) || defined(DEF_MAILREADER)
+#ifdef WIKIVIEWER
+extern int dowiki(void);
+#endif /* WIKIVIEWER */
+#if defined(SHELL) || defined(DEF_PAGER) || defined(DEF_MAILREADER) \
+    || defined(WIKIVIEWER)
 extern int child(int);
 #endif
 #ifdef PANICTRACE

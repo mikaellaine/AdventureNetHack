@@ -283,6 +283,10 @@ endif      #USE_CURSESLIB
 # NetHack sources control
 NHCFLAGS+=-DDLB
 NHCFLAGS+=-DHACKDIR=\"$(HACKDIR)\"
+# #wiki extended command: browses the local NetHackWiki mirror (viewer/,
+# pages/) via the separate wikiview program built by viewer/Makefile (see
+# the `install` target below, and sys/unix/unixunix.c's dowiki()).
+NHCFLAGS+=-DWIKIVIEWER -DWIKIVIEWER_BIN=\"$(PREFIX)/viewer/bin/wikiview\"
 NHCFLAGS+=-DDEFAULT_WINDOW_SYS=\"$(WANT_DEFAULT)\"
 NHCFLAGS+=-DSYSCF -DSYSCF_FILE=\"$(HACKDIR)/sysconf\" -DSECURE
 NHCFLAGS+=-DTIMED_DELAY

@@ -365,7 +365,29 @@ dosh(void)
 }
 #endif /* SHELL */
 
-#if defined(SHELL) || defined(DEF_PAGER) || defined(DEF_MAILREADER)
+#ifdef WIKIVIEWER
+/* #wiki: browse the local NetHackWiki mirror via the separate `wikiview`
+ * terminal program (viewer/), reusing exactly the same suspend-curses /
+ * fork+exec / wait / resume-curses cycle dosh() uses for '!' above --
+ * WIKIVIEWER_BIN is this build's absolute path to it, baked in by the
+ * top-level Makefile the same way HACKDIR itself is. No sysopt.shellers
+ * check here: that restriction exists because an unrestricted shell is a
+ * security concern on shared/multi-user servers, but wikiview isn't a
+ * shell and isn't user-programmable, so it doesn't carry that risk. */
+int
+dowiki(void)
+{
+    if (child(0)) {
+        (void) execl(WIKIVIEWER_BIN, WIKIVIEWER_BIN, (char *) 0);
+        raw_print("wiki: cannot execute.");
+        exit(EXIT_FAILURE);
+    }
+    return 0;
+}
+#endif /* WIKIVIEWER */
+
+#if defined(SHELL) || defined(DEF_PAGER) || defined(DEF_MAILREADER) \
+    || defined(WIKIVIEWER)
 int
 child(int wt)
 {

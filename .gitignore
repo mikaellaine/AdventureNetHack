@@ -98,3 +98,6 @@ util/*.lib
 util/*.exp
 submodules/CHKSUMS.tmp
 sys/amiga/regex/
+
+# wiki viewer (#wiki) build output -- viewer/Makefile rebuilds this
+/viewer/bin/
